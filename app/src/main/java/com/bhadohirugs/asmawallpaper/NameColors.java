@@ -1,0 +1,47 @@
+package com.bhadohirugs.asmawallpaper;
+
+/**
+ * Accent colors for the 99 Names wallpaper.
+ * These are artistic visual associations with the English meanings,
+ * not religiously prescribed or authoritative colors.
+ *
+ * The array order must always match Names.ALL.
+ */
+final class NameColors {
+    private NameColors() {
+    }
+
+    private static final int[] COLORS = {
+        0xFFFF8FA3, 0xFFFFA6B7, 0xFFD4AF37, 0xFFB9A7E8, 0xFF4DD0C8,
+        0xFF60A5FA, 0xFF818CF8, 0xFFFBBF24, 0xFFEF8354, 0xFFD6B56D,
+        0xFF34D399, 0xFF2DD4BF, 0xFF67E8F9, 0xFF86EFAC, 0xFFFB7185,
+        0xFFFFC857, 0xFF4ADE80, 0xFF38BDF8, 0xFF60A5FA, 0xFF94A3B8,
+        0xFF2DD4BF, 0xFF9CA3AF, 0xFFA78BFA, 0xFFFBBF24, 0xFF64748B,
+        0xFF38BDF8, 0xFF67E8F9, 0xFFA78BFA, 0xFF22C55E, 0xFF5EEAD4,
+        0xFF93C5FD, 0xFFB6C6D8, 0xFFE9D5FF, 0xFF86EFAC, 0xFFFDE68A,
+        0xFFC4B5FD, 0xFFD6C6A5, 0xFF60A5FA, 0xFF4ADE80, 0xFFCBD5E1,
+        0xFFF5D07A, 0xFFFFD166, 0xFF67E8F9, 0xFF5EEAD4, 0xFFA5B4FC,
+        0xFFFF9EB5, 0xFFE9C46A, 0xFF93C5FD, 0xFFBAE6FD, 0xFFE2E8F0,
+        0xFFEF4444, 0xFFF97316, 0xFFFB923C, 0xFF60A5FA, 0xFFFDE68A,
+        0xFF38BDF8, 0xFF2DD4BF, 0xFF4ADE80, 0xFF64748B, 0xFF86EFAC,
+        0xFF34D399, 0xFF22C55E, 0xFF93C5FD, 0xFFD8B4FE, 0xFF60A5FA,
+        0xFF64748B, 0xFF4ADE80, 0xFF86EFAC, 0xFFA78BFA, 0xFFC4B5FD,
+        0xFF818CF8, 0xFF67E8F9, 0xFF64748B, 0xFF94A3B8, 0xFF4ADE80,
+        0xFF34D399, 0xFFEF4444, 0xFFFB7185, 0xFFFFA6B7, 0xFFD6B56D,
+        0xFFFBBF24, 0xFF67E8F9, 0xFF22C55E, 0xFF4ADE80, 0xFF94A3B8,
+        0xFFEF4444, 0xFF34D399, 0xFFFFE082, 0xFF60A5FA, 0xFF93C5FD,
+        0xFFE9D5FF, 0xFFD6C6A5, 0xFFBAE6FD, 0xFF818CF8, 0xFFCBD5E1,
+        0xFF60A5FA, 0xFF67E8F9, 0xFFD6B56D, 0xFFB6C6D8
+    };
+
+    static int getColor(int nameIndex) {
+        if (nameIndex < 0 || nameIndex >= COLORS.length) {
+            return 0xFF38BDF8;
+        }
+        return COLORS[nameIndex];
+    }
+
+    static int withAlpha(int color, int alpha) {
+        return (color & 0x00FFFFFF) | ((alpha & 0xFF) << 24);
+    }
+}
