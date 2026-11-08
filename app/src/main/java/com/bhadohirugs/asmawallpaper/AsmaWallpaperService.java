@@ -103,6 +103,9 @@ public class AsmaWallpaperService extends WallpaperService {
                     totalNames - 1);
             String[] name = Names.ALL[index];
 
+            // Select the accent theme that matches this name's meaning.
+            int accentColor = NameColors.getColor(index);
+
             // Scale a 400-unit design canvas to the actual wallpaper surface.
             final float scale = Math.min(width / 400f, height / 800f);
             final float halfHeight = height / (2f * scale);
@@ -120,22 +123,26 @@ public class AsmaWallpaperService extends WallpaperService {
             canvas.drawText("24H CYCLE", -170f, gaugeY, paint);
 
             paint.setTextAlign(Paint.Align.RIGHT);
-            paint.setColor(0xFF38BDF8);
+            paint.setColor(accentColor);
             canvas.drawText((index + 1) + " / " + totalNames, 170f, gaugeY, paint);
 
             final float barTop = gaugeY + 13f;
             paint.setColor(0x44FFFFFF);
             canvas.drawRoundRect(-170f, barTop, 170f, barTop + 6f, 4f, 4f, paint);
-            paint.setColor(0xFF10B981);
+            paint.setColor(accentColor);
             canvas.drawRoundRect(
                     -170f, barTop,
                     -170f + 340f * (index + 1) / totalNames,
                     barTop + 6f, 4f, 4f, paint);
 
-            // Soft ambient glow behind the smaller dial.
+            // Ambient glow follows the current name's accent color.
             paint.setShader(new RadialGradient(
                     0f, 0f, 175f,
-                    new int[]{0x2238BDF8, 0x0810B981, 0x00000000},
+                    new int[]{
+                            NameColors.withAlpha(accentColor, 0x22),
+                            NameColors.withAlpha(accentColor, 0x08),
+                            0x00000000
+                    },
                     null, Shader.TileMode.CLAMP));
             canvas.drawCircle(0f, 0f, 175f, paint);
             paint.setShader(null);
@@ -147,7 +154,7 @@ public class AsmaWallpaperService extends WallpaperService {
                 float innerRadius = dialRadius - (i % 5 == 0 ? 15f : 9f);
 
                 paint.setColor(i == index
-                        ? 0xFF38BDF8
+                        ? accentColor
                         : (i % 5 == 0 ? 0x66FFFFFF : 0x2EFFFFFF));
                 paint.setStrokeWidth(i == index ? 3.2f : (i % 5 == 0 ? 2f : 1.2f));
                 canvas.drawLine(
@@ -158,11 +165,11 @@ public class AsmaWallpaperService extends WallpaperService {
                         paint);
             }
 
-            // Rotating cyan pointer.
+            // Rotating pointer follows the same accent color.
             canvas.save();
             canvas.rotate(index / (float) totalNames * 360f);
-            paint.setColor(0xFF38BDF8);
-            paint.setShadowLayer(10f, 0f, 0f, 0xFF38BDF8);
+            paint.setColor(accentColor);
+            paint.setShadowLayer(10f, 0f, 0f, accentColor);
             Path pointer = new Path();
             pointer.moveTo(0f, -dialRadius - 9f);
             pointer.lineTo(-7f, -dialRadius + 5f);
@@ -177,10 +184,10 @@ public class AsmaWallpaperService extends WallpaperService {
             canvas.drawCircle(0f, 0f, 55f, paint);
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(1.5f);
-            paint.setColor(0x6638BDF8);
+            paint.setColor(NameColors.withAlpha(accentColor, 0x66));
             canvas.drawCircle(0f, 0f, 55f, paint);
             paint.setStyle(Paint.Style.FILL);
-            paint.setColor(0xFF38BDF8);
+            paint.setColor(accentColor);
             paint.setTextAlign(Paint.Align.CENTER);
             paint.setTextSize(36f);
             paint.setTypeface(Typeface.DEFAULT);
@@ -195,24 +202,24 @@ public class AsmaWallpaperService extends WallpaperService {
             canvas.drawRoundRect(card, 22f, 22f, paint);
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(1f);
-            paint.setColor(0x4438BDF8);
+            paint.setColor(NameColors.withAlpha(accentColor, 0x44));
             canvas.drawRoundRect(card, 22f, 22f, paint);
             paint.setStyle(Paint.Style.FILL);
 
-            // Arabic name.
+            // Arabic name remains white for readability.
             paint.setTextAlign(Paint.Align.CENTER);
             paint.setTypeface(Typeface.create("serif", Typeface.BOLD));
             paint.setTextSize(name[0].length() > 14 ? 25f : 32f);
             paint.setColor(Color.WHITE);
             canvas.drawText(name[0], 0f, cardTop + 35f, paint);
 
-            // English transliteration.
+            // English transliteration follows the current accent color.
             paint.setTypeface(Typeface.create("sans-serif", Typeface.BOLD));
             paint.setTextSize(17f);
-            paint.setColor(0xFF38BDF8);
+            paint.setColor(accentColor);
             canvas.drawText(name[1], 0f, cardTop + 61f, paint);
 
-            // Meaning.
+            // Meaning remains soft white.
             paint.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
             paint.setTextSize(12.5f);
             paint.setColor(0xFFCBD5E1);
